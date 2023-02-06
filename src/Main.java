@@ -48,16 +48,38 @@ public class Main {
         int currentPlayer = 2;
         //track consecutive passes, if there are two passes in a row, the game is over
         int passes = 0;
+        int size;
+        boolean useHeuristics = false;
 
         Scanner scanner = new Scanner(System.in);
-        Board board = new Board(4);
-        board.print();
+        String choice;
+
+        System.out.println("Choose your game:");
+        System.out.println("1. Small 4x4 Reversi without heuristics and alpha-beta pruning");
+        System.out.println("2. Large 8x8 Reversi with heuristics and alpha-beta pruning");
+        System.out.print("Your choice: ");
+        choice = scanner.nextLine();
+        switch (choice) {
+            case "1" -> {
+                size = 4;
+            }
+            case "2" -> {
+                size = 8;
+                useHeuristics = true;
+            }
+            default -> {
+                System.out.println("Invalid choice");
+                return;
+            }
+        }
 
         //who is the human player?
         System.out.println("Do you want to play DARK (X) or LIGHT (O)?");
-//        String choice = scanner.nextLine();
-//        int humanPlayer = choice.toUpperCase().charAt(0) == 'X' ? 2 : 1;
-        int humanPlayer = 2;
+        choice = scanner.nextLine();
+        int humanPlayer = choice.toUpperCase().charAt(0) == 'X' ? 2 : 1;
+
+        Board board = new Board(size);
+        board.print();
 
         while (true) {
             //check if there are any legal moves for the current player
@@ -104,7 +126,7 @@ public class Main {
 
                     move = stringToMove(input);
                 } else {
-                    move = board.getNextMove(currentPlayer, 1);
+                    move = board.getNextMove(currentPlayer, useHeuristics);
                     input = moveToString(move);
                 }
 

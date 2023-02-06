@@ -38,7 +38,6 @@ public class Board {
         this.setCell(3, 1, 2);
         this.setCell(3, 2, 2);
         this.setCell(3, 3, 1);
-
     }
 
     public int getSize() {
@@ -199,10 +198,11 @@ public class Board {
 
 
     // call the appropriate AI algorithm and get the next move
-    public int[] getNextMove(int color, int algorithm) {
-        if (algorithm == 1) {
+    public int[] getNextMove(int color, boolean useHeuristic) {
+        if (useHeuristic) {
+            return HMinimax.minimax(this, color, 1);
+        } else {
             return Minimax.minimax(this, color);
         }
-        return null;
     }
 }
