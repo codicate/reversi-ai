@@ -78,5 +78,114 @@ public class Board {
         for (int i = 0; i < this.size; i++) {
             System.out.print((char) (i + 65) + " ");
         }
+        System.out.println();
+    }
+
+//    public boolean isOver() {
+//        for (int i = 0; i < this.size; i++) {
+//            for (int j = 0; j < this.size; j++) {
+//                if (this.getCell(i, j) == 0) {
+//                    return false;
+//                }
+//            }
+//        }
+//
+//        //check if there are any legal moves for either player
+//        for (int i = 0; i < this.size; i++) {
+//            for (int j = 0; j < this.size; j++) {
+//                if (legalMove(this, i, j, 1) || legalMove(this, i, j, 2)) {
+//                    return false;
+//                }
+//            }
+//        }
+//        return true;
+//    }
+
+    public int getWinner() {
+        int whiteCount = 0;
+        int blackCount = 0;
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                if (this.getCell(i, j) == 1) {
+                    whiteCount++;
+                } else if (this.getCell(i, j) == 2) {
+                    blackCount++;
+                }
+            }
+        }
+        if (whiteCount > blackCount) {
+            return 1;
+        } else if (blackCount > whiteCount) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
+
+    public boolean legalMove(int row, int col, int color) {
+        //check if the cell is empty and within bounds
+        if (this.getCell(row, col) != 0) {
+            return false;
+        }
+        if (row < 0 || row >= this.size || col < 0 || col >= this.size) {
+            return false;
+        }
+        //check if there is a piece of the opposite color in any of the 8 directions
+        for (int rowCheck = -1; rowCheck <= 1; rowCheck++) {
+            for (int colCheck = -1; colCheck <= 1; colCheck++) {
+                if (this.getCell(row + rowCheck, col + colCheck) == 3 - color) {
+                    //if there is, check if there is a piece of the same color in the same direction
+                    int rowCheck2 = rowCheck;
+                    int colCheck2 = colCheck;
+                    while (this.getCell(row + rowCheck2, col + colCheck2) == 3 - color) {
+                        rowCheck2 += rowCheck;
+                        colCheck2 += colCheck;
+                    }
+                    if (this.getCell(row + rowCheck2, col + colCheck2) == color) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public void makeMove(int row, int col, int color) {
+        //check if the move is legal
+        if (this.legalMove(row, col, color)) {
+            //if it is, set the cell to the color of the piece
+            this.setCell(row, col, color);
+            //check in all 8 directions for pieces of the opposite color
+            for (int rowCheck = -1; rowCheck <= 1; rowCheck++) {
+                for (int colCheck = -1; colCheck <= 1; colCheck++) {
+                    if (this.getCell(row + rowCheck, col + colCheck) == 3 - color) {
+                        //if there is, check if there is a piece of the same color in the same direction
+                        int rowCheck2 = rowCheck;
+                        int colCheck2 = colCheck;
+                        while (this.getCell(row + rowCheck2, col + colCheck2) == 3 - color) {
+                            rowCheck2 += rowCheck;
+                            colCheck2 += colCheck;
+                        }
+                        if (this.getCell(row + rowCheck2, col + colCheck2) == color) {
+                            //if there is, change all the pieces of the opposite color to the same color
+                            while (this.getCell(row + rowCheck, col + colCheck) == 3 - color) {
+                                this.switchColor(row + rowCheck, col + colCheck);
+                                rowCheck += rowCheck;
+                                colCheck += colCheck;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    // call the appropriate AI algorithm and get the next move
+    public String getNextMove(int color, int algorithm) {
+        if (algorithm == 1) {
+            return Minimax.getNextMove(this, color);
+        }
+        return null;
     }
 }

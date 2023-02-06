@@ -6,64 +6,6 @@ import java.util.Scanner;
 // The main class to play the game
 // The legend for the color of the pieces: empty = 0, white = 1, black = 2
 public class Othello {
-    public boolean legalMove(Board gameBoard, int row, int col, int color) {
-        //check if the cell is empty and within bounds
-        if (gameBoard.getCell(row, col) != 0) {
-            return false;
-        }
-        if (row < 0 || row >= gameBoard.getSize() || col < 0 || col >= gameBoard.getSize()) {
-            return false;
-        }
-        //check if there is a piece of the opposite color in any of the 8 directions
-        for (int rowCheck = -1; rowCheck <= 1; rowCheck++) {
-            for (int colCheck = -1; colCheck <= 1; colCheck++) {
-                if (gameBoard.getCell(row + rowCheck, col + colCheck) == 3 - color) {
-                    //if there is, check if there is a piece of the same color in the same direction
-                    int rowCheck2 = rowCheck;
-                    int colCheck2 = colCheck;
-                    while (gameBoard.getCell(row + rowCheck2, col + colCheck2) == 3 - color) {
-                        rowCheck2 += rowCheck;
-                        colCheck2 += colCheck;
-                    }
-                    if (gameBoard.getCell(row + rowCheck2, col + colCheck2) == color) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    public void makeMove(Board gameBoard, int row, int col, int color) {
-        //check if the move is legal
-        if (legalMove(gameBoard, row, col, color)) {
-            //if it is, set the cell to the color of the piece
-            gameBoard.setCell(row, col, color);
-            //check in all 8 directions for pieces of the opposite color
-            for (int rowCheck = -1; rowCheck <= 1; rowCheck++) {
-                for (int colCheck = -1; colCheck <= 1; colCheck++) {
-                    if (gameBoard.getCell(row + rowCheck, col + colCheck) == 3 - color) {
-                        //if there is, check if there is a piece of the same color in the same direction
-                        int rowCheck2 = rowCheck;
-                        int colCheck2 = colCheck;
-                        while (gameBoard.getCell(row + rowCheck2, col + colCheck2) == 3 - color) {
-                            rowCheck2 += rowCheck;
-                            colCheck2 += colCheck;
-                        }
-                        if (gameBoard.getCell(row + rowCheck2, col + colCheck2) == color) {
-                            //if there is, change all the pieces of the opposite color to the same color
-                            while (gameBoard.getCell(row + rowCheck, col + colCheck) == 3 - color) {
-                                gameBoard.switchColor(row + rowCheck, col + colCheck);
-                                rowCheck += rowCheck;
-                                colCheck += colCheck;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     // game over logic - board is either completely full or nobody has any legal moves
     public boolean gameOver(Board gameBoard) {
         for (int i = 0; i < gameBoard.getSize(); i++) {
@@ -84,46 +26,7 @@ public class Othello {
         return true;
     }
 
-    // Determining the winner - whoever has the most pieces wins
-    public int getWinner(Board gameBoard) {
-        int whiteCount = 0;
-        int blackCount = 0;
-        for (int i = 0; i < gameBoard.getSize(); i++) {
-            for (int j = 0; j < gameBoard.getSize(); j++) {
-                if (gameBoard.getCell(i, j) == 1) {
-                    whiteCount++;
-                } else if (gameBoard.getCell(i, j) == 2) {
-                    blackCount++;
-                }
-            }
-        }
-        if (whiteCount > blackCount) {
-            return 1;
-        } else if (blackCount > whiteCount) {
-            return 2;
-        } else {
-            return 0;
-        }
-    }
 
-    // static function to convert the color code to the player name
-    public static String convertToPlayer(int color) {
-        if (color == 1) {
-            return "LIGHT/O";
-        } else if (color == 2) {
-            return "DARK/X";
-        } else {
-            return "Incorrect color code";
-        }
-    }
-
-    // call the appropriate AI algorithm and get the next move
-    private String getNextMove(Board gameBoard, int color, int algorithm) {
-        if (algorithm == 1) {
-            return Minimax.getNextMove(gameBoard, color);
-        }
-        return null;
-    }
 
     public static void main(String[] args) {
         //driver code
@@ -218,17 +121,6 @@ public class Othello {
                         System.out.println("Invalid move - Not a legal move or cell is occupied or out of bounds");
                     }
                 }
-            }
-        }
-        System.out.println();
-        System.out.println("Game Over");
-        //print the winner
-        int winner = game.getWinner(gameBoard);
-        if (winner == 0) {
-            System.out.println("Tie game");
-        } else {
-            if (winner == 1) {
-                System.out.println("Winner:" + convertToPlayer(winner));
             }
         }
     }
