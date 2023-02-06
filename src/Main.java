@@ -55,19 +55,13 @@ public class Main {
 
         //who is the human player?
         System.out.println("Do you want to play DARK (X) or LIGHT (O)?");
-        String choice = scanner.nextLine();
-        int humanPlayer = choice.toUpperCase().charAt(0) == 'X' ? 2 : 1;
+//        String choice = scanner.nextLine();
+//        int humanPlayer = choice.toUpperCase().charAt(0) == 'X' ? 2 : 1;
+        int humanPlayer = 2;
 
         while (true) {
             //check if there are any legal moves for the current player
-            boolean legalMoves = false;
-            for (int i = 0; i < board.getSize(); i++) {
-                for (int j = 0; j < board.getSize(); j++) {
-                    if (board.legalMove(i, j, currentPlayer)) {
-                        legalMoves = true;
-                    }
-                }
-            }
+            boolean legalMoves = board.hasLegalMoves(currentPlayer);
 
             //if there are no legal moves, switch players and pass move
             if (!legalMoves) {

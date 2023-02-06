@@ -35,6 +35,14 @@ public class Minimax {
         if (depth == 0) {
             return utility(board, color);
         }
+        if (!board.hasLegalMoves(color)) {
+            int winner = board.getWinner();
+            if (winner == color) {
+                return 0;
+            } else {
+                return Integer.MAX_VALUE;
+            }
+        }
         int bestScore = Integer.MIN_VALUE;
         for (int row = 0; row < board.getSize(); row++) {
             for (int col = 0; col < board.getSize(); col++) {

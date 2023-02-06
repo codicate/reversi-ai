@@ -106,26 +106,6 @@ public class Board {
         System.out.println();
     }
 
-//    public boolean isOver() {
-//        for (int i = 0; i < this.size; i++) {
-//            for (int j = 0; j < this.size; j++) {
-//                if (this.getCell(i, j) == 0) {
-//                    return false;
-//                }
-//            }
-//        }
-//
-//        //check if there are any legal moves for either player
-//        for (int i = 0; i < this.size; i++) {
-//            for (int j = 0; j < this.size; j++) {
-//                if (legalMove(this, i, j, 1) || legalMove(this, i, j, 2)) {
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
-//    }
-
     public int getWinner() {
         int whiteCount = 0;
         int blackCount = 0;
@@ -138,6 +118,7 @@ public class Board {
                 }
             }
         }
+
         if (whiteCount > blackCount) {
             return 1;
         } else if (blackCount > whiteCount) {
@@ -169,6 +150,17 @@ public class Board {
                     if (this.getCell(row + rowCheck2, col + colCheck2) == color) {
                         return true;
                     }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean hasLegalMoves(int color) {
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j <  this.size; j++) {
+                if (this.legalMove(i, j, color)) {
+                    return true;
                 }
             }
         }
