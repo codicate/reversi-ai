@@ -10,6 +10,25 @@ public class Main {
         return 3 - currentPlayer;
     }
 
+    public static int[] stringToMove(String input) {
+        int[] result = new int[2];
+
+        int row = Character.getNumericValue(input.charAt(1)) - 1;
+        //if lowercase column input, convert to uppercase
+        if (input.charAt(0) >= 97) {
+            input = input.substring(0, 1).toUpperCase() + input.substring(1);
+        }
+        int col = Character.getNumericValue(input.charAt(0)) - 10;
+
+        result[0] = row;
+        result[1] = col;
+        return result;
+    }
+
+    public static String moveToString(int[] move) {
+        return (char) (move[1] + 65) + Integer.toString(move[0] + 1);
+    }
+
     public static void printWinner(Board board) {
         System.out.println();
         System.out.println("Game Over");
@@ -30,14 +49,14 @@ public class Main {
         //track consecutive passes, if there are two passes in a row, the game is over
         int passes = 0;
 
-        Scanner input = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         Board board = new Board(4);
         board.print();
 
-       //who is the human player?
-       System.out.println("Do you want to play DARK (X) or LIGHT (O)?");
-       String choice = input.nextLine();
-       int humanPlayer = choice.toUpperCase().charAt(0) == 'X' ? 2 : 1;
+        //who is the human player?
+        System.out.println("Do you want to play DARK (X) or LIGHT (O)?");
+        String choice = scanner.nextLine();
+        int humanPlayer = choice.toUpperCase().charAt(0) == 'X' ? 2 : 1;
 
         while (true) {
             //check if there are any legal moves for the current player
@@ -64,54 +83,48 @@ public class Main {
                 }
             } else {
                 passes = 0;
+                String input;
+                int[] move;
+
                 System.out.println();
                 System.out.println("Next to play: " + convertToPlayer(currentPlayer));
-                String move;
+
                 //if the current player is the human player, prompt for a move
                 if (currentPlayer == humanPlayer) {
                     System.out.print("Your Move (? for help): ");
-                    input = new Scanner(System.in);
-                    move = input.nextLine();
+                    input = scanner.nextLine();
+
+                    //check if the user wants help
+                    if (input.length() == 1 && input.charAt(0) == '?') {
+                        System.out.println("Enter moves as COLUMN then LETTER.");
+                        System.out.println("For example, \"a1\" is the top left corner.");
+                        System.out.println("Enter \"pass\" (without the quotes) if you have no legal moves.");
+                        // Skip the rest of the loop, go back to the beginning
+                        continue;
+                    }
+
+                    if (input.length() != 2) {
+                        System.out.println("Invalid move");
+                        continue;
+                    }
+
+                    move = stringToMove(input);
                 } else {
-                    System.out.print("Your Move (? for help): ");
-                    input = new Scanner(System.in);
-                    move = input.nextLine();
-//                    move = board.getNextMove(currentPlayer, 1);
+                    move = board.getNextMove(currentPlayer, 1);
+                    input = moveToString(move);
                 }
 
-                //check if the user wants help
-                if (move.length() == 1 && move.charAt(0) == '?') {
-                    System.out.println("Enter moves as COLUMN then LETTER.");
-                    System.out.println("For example, \"a1\" is the top left corner.");
-                    System.out.println("Enter \"pass\" (without the quotes) if you have no legal moves.");
-                    // Skip the rest of the loop, go back to the beginning
-                    continue;
-                }
-                if (move.length() != 2) {
-                    System.out.println("Invalid move");
+                //print the move in format
+                System.out.println(convertToPlayer(currentPlayer) + " @ " + input);
+
+                //check if the move is legal
+                if (board.legalMove(move[0], move[1], currentPlayer)) {
+                    board.makeMove(move[0], move[1], currentPlayer);
+                    board.print();
+                    currentPlayer = switchPlayer(currentPlayer);
                 } else {
-                    //print the move in format
-                    System.out.println(convertToPlayer(currentPlayer)+ " @ " + move);
-                    int row = Character.getNumericValue(move.charAt(1)) - 1;
-                    //if lowercase column input, convert to uppercase
-                    if (move.charAt(0) >= 97) {
-                        move = move.substring(0, 1).toUpperCase() + move.substring(1);
-                    }
-                    int col = Character.getNumericValue(move.charAt(0)) - 10;
-                    //check if the move is legal
-                    if (board.legalMove(row, col, currentPlayer)) {
-                        board.makeMove(row, col, currentPlayer);
-                        board.print();
-                        System.out.println();
-                        //switch players
-                        if (currentPlayer == 1) {
-                            currentPlayer = 2;
-                        } else {
-                            currentPlayer = 1;
-                        }
-                    } else {
-                        System.out.println("Invalid move - Not a legal move or cell is occupied or out of bounds");
-                    }
+                    System.out.println("Invalid move - Not a legal move or cell is occupied or out of bounds");
+                    return;
                 }
             }
         }

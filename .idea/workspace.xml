@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="e88eef80-89a7-417e-9d65-b5bbcad47f35" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Othello.java" beforeDir="false" afterPath="$PROJECT_DIR$/old/Othello.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Minimax.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Minimax.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +81,7 @@
       <updated>1675358319260</updated>
       <workItem from="1675358319706" duration="77000" />
       <workItem from="1675367379990" duration="623000" />
-      <workItem from="1675701004223" duration="4471000" />
+      <workItem from="1675701004223" duration="8535000" />
     </task>
     <servers />
   </component>
