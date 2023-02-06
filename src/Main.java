@@ -37,9 +37,7 @@ public class Main {
         if (winner == 0) {
             System.out.println("Tie game");
         } else {
-            if (winner == 1) {
-                System.out.println("Winner:" + convertToPlayer(winner));
-            }
+            System.out.println("Winner:" + convertToPlayer(winner));
         }
     }
 
@@ -140,7 +138,6 @@ public class Main {
                     currentPlayer = switchPlayer(currentPlayer);
                 } else {
                     System.out.println("Invalid move - Not a legal move or cell is occupied or out of bounds");
-                    return;
                 }
             }
         }

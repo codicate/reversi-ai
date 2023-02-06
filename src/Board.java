@@ -27,17 +27,17 @@ public class Board {
         this.setCell(size / 2 - 1, size / 2, 2);
         this.setCell(size / 2, size / 2 - 1, 2);
 
-        this.setCell(0, 0, 1);
-        this.setCell(0, 1, 1);
-        this.setCell(0, 2, 1);
-        this.setCell(0, 3, 2);
-        this.setCell(1, 0, 1);
-        this.setCell(2, 0, 1);
-        this.setCell(1, 3, 1);
-        this.setCell(2, 3, 1);
-        this.setCell(3, 1, 2);
-        this.setCell(3, 2, 2);
-        this.setCell(3, 3, 1);
+//        this.setCell(0, 0, 1);
+//        this.setCell(0, 1, 1);
+//        this.setCell(0, 2, 1);
+//        this.setCell(0, 3, 2);
+//        this.setCell(1, 0, 1);
+//        this.setCell(2, 0, 1);
+//        this.setCell(1, 3, 1);
+//        this.setCell(2, 3, 1);
+//        this.setCell(3, 1, 2);
+//        this.setCell(3, 2, 2);
+//        this.setCell(3, 3, 1);
     }
 
     public int getSize() {
