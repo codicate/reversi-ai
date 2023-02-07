@@ -48,13 +48,14 @@ public class Main {
         int passes = 0;
         int size;
         boolean useHeuristics = false;
+        int depth = 0;
 
         Scanner scanner = new Scanner(System.in);
         String choice;
 
         System.out.println("Choose your game:");
-        System.out.println("1. Small 4x4 Reversi without heuristics and alpha-beta pruning");
-        System.out.println("2. Large 8x8 Reversi with heuristics and alpha-beta pruning");
+        System.out.println("1. Small 4x4 Reversi without heuristics nor alpha-beta pruning");
+        System.out.println("2. Large 8x8 Reversi with Hminimax with fixed depth and alpha-beta pruning");
         System.out.print("Your choice: ");
         choice = scanner.nextLine();
         switch (choice) {
@@ -73,6 +74,12 @@ public class Main {
                 System.out.println("Invalid choice");
                 return;
             }
+        }
+
+        if (useHeuristics) {
+            System.out.println("Enter the depth the state space search should explore: ");
+            choice = scanner.nextLine();
+            depth = Integer.parseInt(choice);
         }
 
         //who is the human player?
@@ -129,7 +136,7 @@ public class Main {
 
                     move = stringToMove(input);
                 } else {
-                    move = board.getNextMove(currentPlayer, useHeuristics);
+                    move = board.getNextMove(currentPlayer, useHeuristics, depth);
                     input = moveToString(move);
                 }
                 //end timer

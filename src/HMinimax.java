@@ -65,33 +65,4 @@ public class HMinimax {
         }
         return bestScore;
     }
-
-    // recursion with fixed depth cutoff without alpha beta pruning
-    public static int recurse(Board board, int color, int depth) {
-        if (depth == 0) {
-            return heuristic(board, color);
-        }
-        if (!board.hasLegalMoves(color)) {
-            int winner = board.getWinner();
-            if (winner == color) {
-                return 0;
-            } else {
-                return Integer.MAX_VALUE;
-            }
-        }
-        int bestScore = Integer.MIN_VALUE;
-        for (int row = 0; row < board.getSize(); row++) {
-            for (int col = 0; col < board.getSize(); col++) {
-                if (board.legalMove(row, col, color)) {
-                    Board newBoard = new Board(board);
-                    newBoard.makeMove(row, col, color);
-                    int score = recurse(newBoard, 3 - color, depth - 1);
-                    if (score > bestScore) {
-                        bestScore = score;
-                    }
-                }
-            }
-        }
-        return bestScore;
-    }
 }
