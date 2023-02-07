@@ -136,6 +136,7 @@ public class Main {
 
                     move = stringToMove(input);
                 } else {
+                    // Computer AI move using minimax
                     move = board.getNextMove(currentPlayer, useHeuristics, depth);
                     input = moveToString(move);
                 }
