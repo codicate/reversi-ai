@@ -1,13 +1,29 @@
 public class HMinimax {
     public static int heuristic(Board board, int color) {
         int score = 0;
+        int flipScore = 0;
+        int numPieces = 0;
         for (int row = 0; row < board.getSize(); row++) {
             for (int col = 0; col < board.getSize(); col++) {
                 if (board.getCell(row, col) == color) {
-                    score++;
+                    // give a point for each piece (greedy)
+                    flipScore++;
+                    // check if color has more pieces at the edges and corners, and give them a higher score (corner is 2 points, edge is 1 point)
+                    if (row == 0 || row == board.getSize() - 1 || col == 0 || col == board.getSize() - 1) {
+                        score++;
+                    }
+                    if ((row == 0 || row == board.getSize() - 1) && (col == 0 || col == board.getSize() - 1)) {
+                        score++;
+                    }
+                }
+                if (board.getCell(row, col) != 0) {
+                    //calculate the number of pieces for punishing the algorithm for being too greedy in the beginning of the game
+                    numPieces++;
                 }
             }
         }
+        // reduce the flipScore (greedy) by the number of pieces (punishment) and weight it by 0.5
+        score += flipScore*numPieces*0.5;
         return score;
     }
 
