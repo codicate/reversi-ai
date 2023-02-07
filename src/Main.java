@@ -63,6 +63,10 @@ public class Main {
             }
             case "2" -> {
                 size = 8;
+                // ask what depth to use for the AI
+//                System.out.print("Enter depth for state space search: ");
+//                choice = scanner.nextLine();
+
                 useHeuristics = true;
             }
             default -> {
@@ -102,7 +106,8 @@ public class Main {
 
                 System.out.println();
                 System.out.println("Next to play: " + convertToPlayer(currentPlayer));
-
+                //start timer
+                long startTime = System.nanoTime();
                 //if the current player is the human player, prompt for a move
                 if (currentPlayer == humanPlayer) {
                     System.out.print("Your Move (? for help): ");
@@ -127,6 +132,11 @@ public class Main {
                     move = board.getNextMove(currentPlayer, useHeuristics);
                     input = moveToString(move);
                 }
+                //end timer
+                long endTime = System.nanoTime();
+                long duration = (endTime - startTime) / 1000000;
+                // Time in milliseconds
+                System.out.println("Time taken: " + duration + "ms");
 
                 //print the move in format
                 System.out.println(convertToPlayer(currentPlayer) + " @ " + input);

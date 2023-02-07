@@ -200,7 +200,7 @@ public class Board {
     // call the appropriate AI algorithm and get the next move
     public int[] getNextMove(int color, boolean useHeuristic) {
         if (useHeuristic) {
-            return HMinimax.minimax(this, color, 1);
+            return HMinimax.minimax(this, color, 8);
         } else {
             return Minimax.minimax(this, color);
         }
